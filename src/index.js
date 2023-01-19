@@ -1,31 +1,45 @@
 // ITERATION 1
 
 function updateSubtotal(product) {
-  console.log('Calculating subtotal, yey!');
 
-  //... your code goes here
+  console.log('Calculating subtotal, yey!');
+  const price = product.querySelector('.price span');
+  const quantity = product.querySelector('.quantity input');
+  const subtotal = product.querySelector('.subtotal span');
+
+  let currentPrice = price.innerHTML;
+  let currentQuantity = quantity.value;
+
+  let subtotalPrice = currentPrice * currentQuantity;
+
+  subtotal.innerHTML = subtotalPrice;
+  return subtotal.innerHTML;
+
 }
 
+// Iterations 2 and 3
+
 function calculateAll() {
-  // code in the following two lines is added just for testing purposes.
-  // it runs when only iteration 1 is completed. at later point, it can be removed.
-  const singleProduct = document.querySelector('.product');
-  updateSubtotal(singleProduct);
-  // end of test
+  const allProducts = document.getElementsByClassName('product');
+  let totalPrice = document.querySelector('#total-value span');
+  let total = 0;
 
-  // ITERATION 2
-  //... your code goes here
-
-  // ITERATION 3
-  //... your code goes here
+  for (let i = 0; i < allProducts.length; i++) {
+    total += +(updateSubtotal(allProducts[i]));
+    
+  }
+  totalPrice.innerHTML = total;
 }
 
 // ITERATION 4
 
 function removeProduct(event) {
   const target = event.currentTarget;
+  const row = target.parentNode.parentNode;
+  const parentOfProduct = document.getElementById('parent');
   console.log('The target in remove is:', target);
-  //... your code goes here
+
+  parentOfProduct.removeChild(row);
 }
 
 // ITERATION 5
@@ -36,7 +50,12 @@ function createProduct() {
 
 window.addEventListener('load', () => {
   const calculatePricesBtn = document.getElementById('calculate');
+  const removeButtons = document.querySelectorAll(`.btn-remove`);
   calculatePricesBtn.addEventListener('click', calculateAll);
+
+  for (let i = 0; i < removeButtons.length; i++) {
+    removeButtons[i].addEventListener('click', removeProduct); 
+  }
 
   //... your code goes here
 });
